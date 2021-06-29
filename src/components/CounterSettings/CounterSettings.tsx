@@ -4,7 +4,6 @@ import {Button} from '../Button/Button';
 import {Changer} from '../Changer/Changer';
 
 type CounterSettingsPropsType = {
-    makeMessage: (text: string, error: boolean) => void
     minValue: number
     maxValue: number
     setNewMinValue: (value: number) => void
@@ -13,23 +12,18 @@ type CounterSettingsPropsType = {
 }
 
 export const CounterSettings = (props: CounterSettingsPropsType) => {
-    const [buttonDisabled, setButtonDisabled] = useState<boolean>(true)
+    const [buttonDisabled, setButtonDisabled] = useState<boolean>(false)
     const [minError, setMinError] = useState<boolean>(false)
     const [maxError, setMaxError] = useState<boolean>(false)
 
     const checkError = (minValue: number, maxValue: number) => {
         const minError = minValue < 0 || minValue >= maxValue
         const maxError = maxValue < 0 || maxValue <= minValue
-       setMinError(minError)
-       setMaxError(maxError)
+        setMinError(minError)
+        setMaxError(maxError)
 
         const error = minError || maxError
         setButtonDisabled(error)
-        if (error) {
-            props.makeMessage('Incorrect value!', true)
-        } else {
-            props.makeMessage(`Enter values and press 'Set'`, false)
-        }
     }
 
     const changeMaxValue = (maxValue: number) => {
@@ -43,7 +37,6 @@ export const CounterSettings = (props: CounterSettingsPropsType) => {
     }
 
     const setButtonPressed = () => {
-        setButtonDisabled(true)
         props.setButtonPressed()
     }
 

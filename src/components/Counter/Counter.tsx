@@ -7,9 +7,8 @@ type CounterPropsType = {
     counter: number
     minValue: number
     maxValue: number
-    text: string
-    error: boolean
     setCounterValue: (value: number) => void
+    enterSetmode: () => void
 }
 
 export const Counter = (props: CounterPropsType) => {
@@ -23,26 +22,35 @@ export const Counter = (props: CounterPropsType) => {
         props.setCounterValue(props.minValue)
     }
 
+    const enterSetmode = () => {
+        props.enterSetmode()
+    }
+
     return (
         <div className={s.main}>
 
             <Display
                 counterValue={props.counter}
-                text={props.text}
-                error={ !!props.text ? props.error : props.counter >= props.maxValue}
+                error={props.counter >= props.maxValue}
             />
 
             <div className={s.buttons}>
                 <Button
                     name={'Inc'}
-                    disabled={!!props.text || props.counter >= props.maxValue}
+                    disabled={props.counter >= props.maxValue}
                     callback={increment}
                 />
 
                 <Button
                     name={'Reset'}
-                    disabled={!!props.text || props.counter === props.minValue}
+                    disabled={props.counter === props.minValue}
                     callback={reset}
+                />
+
+                <Button
+                    name={'Set'}
+                    disabled={false}
+                    callback={enterSetmode}
                 />
             </div>
 
